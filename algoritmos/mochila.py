@@ -93,10 +93,7 @@ def optimizar_mochila_greedy(paquetes, capacidad_peso, capacidad_volumen=float('
 
 
 def asignar_carga_a_vehiculo(vehiculo, paquetes_candidatos):
-    """
-    Aplica el algoritmo de la mochila para llenar óptimamente un vehículo específico
-    (Barco, Avión, Furgón, Van, Moto), respetando tanto límite de peso como de volumen.
-    """
+    # Aplica el algoritmo de la mochila para llenar el barco respetando peso y volumen
     # Usamos la estrategia combinada DP + filtro de volumen
     _, seleccionados, _ = optimizar_mochila_dp(
         paquetes_candidatos, 

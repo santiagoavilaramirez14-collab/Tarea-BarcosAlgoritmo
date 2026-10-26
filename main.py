@@ -116,7 +116,7 @@ def main():
 
         if opcion == "1":
             print("\n--- PAQUETES EN BODEGA (INORDEN BST) ---")
-            print(f"{'ID':<6} | {'Descripcion':<35} | {'Vol (m³)':<10} | {'Peso (kg)':<10} | {'Destino':<35}")
+            print(f"{'ID':<6} | {'Descripcion':<35} | {'Vol (m3)':<10} | {'Peso (kg)':<10} | {'Destino':<35}")
             print("-" * 110)
             for p in bodega.inorden():
                 print(f"{p.id_paquete:<6} | {p.descripcion[:33]:<35} | {p.volumen_m3:<10} | {p.peso_kg:<10} | {p.destino_nombre[:33]:<35}")
@@ -125,9 +125,9 @@ def main():
             print("\n--- ASIGNACION DE CARGA AL BARCO (MOCHILA 0/1) ---")
             vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
             barco = vehiculos_optimizados[0]
-            print(f"\n🚢 {barco.nombre} [BARCO]:")
+            print(f"\n{barco.nombre} [BARCO]:")
             print(f"   Peso cargado: {barco.peso_actual_kg} / {barco.capacidad_peso_kg} kg ({barco.porcentaje_peso_usado}%)")
-            print(f"   Volumen cargado: {barco.volumen_actual_m3} / {barco.capacidad_volumen_m3} m³ ({barco.porcentaje_volumen_usado}%)")
+            print(f"   Volumen cargado: {barco.volumen_actual_m3} / {barco.capacidad_volumen_m3} m3 ({barco.porcentaje_volumen_usado}%)")
             print(f"   Paquetes asignados ({len(barco.paquetes_asignados)}): {[p.id_paquete for p in barco.paquetes_asignados]}")
 
         elif opcion == "3":
@@ -135,7 +135,7 @@ def main():
             rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
             for r in rutas_calculadas:
                 camino = " -> ".join(r["ruta"]) if r["ruta"] else "Sin ruta"
-                print(f"\n📦 Paquete #{r['id_paquete']} ({r['descripcion']}):")
+                print(f"\nPaquete #{r['id_paquete']} ({r['descripcion']}):")
                 print(f"   Puerto Origen: {r['origen']}")
                 print(f"   Puerto Destino: {r['destino']}")
                 print(f"   Distancia nautica: {r['distancia_km']} km")
