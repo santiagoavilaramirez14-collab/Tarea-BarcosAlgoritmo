@@ -22,9 +22,6 @@ El proyecto simula un sistema de distribución de paquetes que combina transport
 4. **Exportación a Excel:**
    - Genera el archivo `reporte_logistica_barcos.xlsx` con el inventario de paquetes, asignación de carga y las rutas calculadas.
 
-5. **Simulación en Mapa:**
-   - Simula las rutas marítimas entre puertos (Shanghái, Rotterdam, Los Ángeles, Miami, Buenaventura, Cartagena, Barranquilla, Santa Marta) y la entrega en Ibagué.
-
 ---
 
 ## 🚀 Cómo Ejecutar
@@ -40,8 +37,7 @@ Opciones del menú:
 2. Llenar vehículos (Mochila)
 3. Calcular rutas (Dijkstra)
 4. Generar Excel
-5. Ver mapa interactivo
-6. Ejecutar todo
+5. Ejecutar todo
 0. Salir
 
 ---
@@ -60,8 +56,6 @@ Opciones del menú:
   - `grafo_rutas.py`: Grafo con las coordenadas y conexiones entre puertos, aeropuertos y barrios de Ibagué.
 - `exportador/`:
   - `exportar_excel.py`: Genera el archivo `.xlsx` con `openpyxl`.
-- `visualizacion/`:
-  - `simulador_mapa.html`: Mapa interactivo con Leaflet.
 - `data/`:
   - `paquetes_ejemplo.json`: Datos de prueba de los paquetes.
 - `reporte_logistica_barcos.xlsx`: Archivo Excel con los resultados.

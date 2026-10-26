@@ -4,7 +4,6 @@
 import os
 import sys
 import json
-import webbrowser
 from pathlib import Path
 
 # Configurar rutas del proyecto
@@ -16,7 +15,7 @@ from modelos.transporte import BarcoCarga, AvionCarga, FurgonTerrestre, VanTerre
 from algoritmos.mochila import optimizar_mochila_dp, optimizar_mochila_greedy, asignar_carga_a_vehiculo
 from algoritmos.dijkstra import dijkstra, reconstruir_ruta
 from algoritmos.arbol_bodega import ArbolBodega
-from red_logistica.grafo_rutas import RedMultimodalLogistica, COORDENADAS_NODOS
+from red_logistica.grafo_rutas import RedMultimodalLogistica
 from exportador.exportar_excel import generar_reporte_excel
 
 
@@ -111,24 +110,6 @@ def calcular_rutas_dijkstra(paquetes, red):
     return rutas_calculadas
 
 
-def sincronizar_datos_simulador(paquetes, rutas_calculadas):
-    """Genera el archivo JavaScript que consume el simulador web Leaflet"""
-    js_path = BASE_DIR / "visualizacion" / "datos_simulador.js"
-    
-    paquetes_json = [p.to_dict() for p in paquetes]
-    
-    contenido = f"""// Archivo generado automáticamente por main.py
-const COORDENADAS_NODOS = {json.dumps(COORDENADAS_NODOS, indent=2, ensure_ascii=False)};
-
-const PAQUETES_DATA = {json.dumps(paquetes_json, indent=2, ensure_ascii=False)};
-
-const RUTAS_DIJKSTRA_DATA = {json.dumps(rutas_calculadas, indent=2, ensure_ascii=False)};
-"""
-    with open(js_path, "w", encoding="utf-8") as f:
-        f.write(contenido)
-    print(f"Datos sincronizados para el simulador web: {js_path}")
-
-
 def mostrar_menu():
     print("\n" + "=" * 45)
     print("      SISTEMA DE RUTAS Y BARCOS")
@@ -137,8 +118,7 @@ def mostrar_menu():
     print("2. Llenar vehiculos (Mochila)")
     print("3. Calcular rutas (Dijkstra)")
     print("4. Generar Excel")
-    print("5. Ver mapa interactivo")
-    print("6. Ejecutar todo")
+    print("5. Ejecutar todo")
     print("0. Salir")
     print("=" * 45)
 
@@ -157,7 +137,7 @@ def main():
 
     while True:
         mostrar_menu()
-        opcion = input("Selecciona una opcion (0-6): ").strip()
+        opcion = input("Selecciona una opcion (0-5): ").strip()
 
         if opcion == "1":
             print("\n--- PAQUETES EN BODEGA (INORDEN BST) ---")
@@ -206,20 +186,9 @@ def main():
             print(f"Reporte generado: {excel_path.name}")
 
         elif opcion == "5":
-            print("\n--- ABRIENDO MAPA INTERACTIVO ---")
-            if rutas_calculadas is None:
-                rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
-            sincronizar_datos_simulador(paquetes, rutas_calculadas)
-
-            html_path = BASE_DIR / "visualizacion" / "simulador_mapa.html"
-            webbrowser.open(f"file:///{html_path.resolve()}")
-            print(f"Abierto en el navegador: {html_path.name}")
-
-        elif opcion == "6":
             print("\n--- EJECUTANDO FLUJO COMPLETO ---")
             vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
             rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
-            sincronizar_datos_simulador(paquetes, rutas_calculadas)
 
             kpis = {
                 "total_paquetes": len(paquetes),
@@ -229,13 +198,13 @@ def main():
             }
             excel_path = BASE_DIR / "reporte_logistica_barcos.xlsx"
             generar_reporte_excel(str(excel_path), paquetes, vehiculos_optimizados, rutas_calculadas, kpis)
-            print("Listo. Archivo Excel y datos del mapa actualizados.")
+            print("Listo. Archivo Excel generado correctamente.")
 
         elif opcion == "0":
             print("Saliendo...")
             break
         else:
-            print("Opción inválida. Intenta nuevamente.")
+            print("Opcion invalida. Intenta nuevamente.")
 
 
 if __name__ == "__main__":
