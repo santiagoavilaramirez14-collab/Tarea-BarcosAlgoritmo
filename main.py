@@ -3,7 +3,6 @@
 
 import os
 import sys
-import json
 from pathlib import Path
 
 # Configurar rutas del proyecto
@@ -19,33 +18,34 @@ from red_logistica.grafo_rutas import RedMaritimaPuertos
 from exportador.exportar_excel import generar_reporte_excel
 
 
-def cargar_paquetes(ruta_json=None):
-    """Carga los paquetes y cargas de prueba desde el archivo JSON"""
-    if ruta_json is None:
-        ruta_json = BASE_DIR / "data" / "paquetes_ejemplo.json"
-        
-    with open(ruta_json, "r", encoding="utf-8") as f:
-        datos = json.load(f)
-        
-    paquetes = []
-    for item in datos:
-        p = Paquete(
-            id_paquete=item["id_paquete"],
-            descripcion=item["descripcion"],
-            alto=item["alto"],
-            ancho=item["ancho"],
-            profundidad=item["profundidad"],
-            peso_kg=item["peso_kg"],
-            origen=item["origen"],
-            destino_nombre=item["destino_nombre"],
-            lat=item["lat"],
-            lon=item["lon"],
-            modalidad_preferida="barco",
-            prioridad=item["prioridad"]
-        )
-        paquetes.append(p)
-    return paquetes
-
+def cargar_paquetes():
+    """
+    Lista de cargas maritimas registradas para transporte en barco.
+    Cada carga especifica: ID, descripcion, dimensiones (alto, ancho, profundidad),
+    peso (kg), puerto de origen, puerto de destino, coordenadas y prioridad.
+    """
+    return [
+        Paquete(101, "Contenedor de Maquinaria Textil", 2.60, 2.40, 6.00, 8500.0,
+                "Puerto de Shanghái (China)", "Puerto de Buenaventura (Colombia)", 3.8833, -77.0333, "barco", 85),
+        Paquete(102, "Lote Repuestos Automotrices", 1.80, 1.50, 2.20, 3200.0,
+                "Puerto de Rotterdam (Países Bajos)", "Puerto de Cartagena (Colombia)", 10.3910, -75.4794, "barco", 75),
+        Paquete(103, "Bobinas de Acero y Perfilería", 1.50, 1.50, 3.00, 5400.0,
+                "Puerto de Shanghái (China)", "Puerto de Buenaventura (Colombia)", 3.8833, -77.0333, "barco", 70),
+        Paquete(104, "Cargamento Motores Industriales", 1.60, 1.40, 2.00, 4200.0,
+                "Puerto de Los Ángeles (EE.UU.)", "Puerto de Buenaventura (Colombia)", 3.8833, -77.0333, "barco", 80),
+        Paquete(105, "Equipos Eléctricos de Distribución", 2.00, 1.20, 1.80, 3800.0,
+                "Puerto de Rotterdam (Países Bajos)", "Puerto de Barranquilla (Colombia)", 10.9685, -74.7813, "barco", 90),
+        Paquete(106, "Insumos Químicos en Tambores", 1.40, 1.20, 1.80, 2100.0,
+                "Puerto de Miami (EE.UU.)", "Puerto de Cartagena (Colombia)", 10.3910, -75.4794, "barco", 65),
+        Paquete(107, "Electrodomésticos y Línea Blanca", 1.90, 1.10, 1.20, 2850.0,
+                "Puerto de Shanghái (China)", "Puerto de Santa Marta (Colombia)", 11.2408, -74.1990, "barco", 60),
+        Paquete(108, "Cajas de Calzado y Textiles", 1.20, 1.00, 1.50, 1500.0,
+                "Puerto de Miami (EE.UU.)", "Puerto de Barranquilla (Colombia)", 10.9685, -74.7813, "barco", 55),
+        Paquete(109, "Contenedor de Paneles Solares", 2.20, 1.50, 3.50, 4600.0,
+                "Puerto de Rotterdam (Países Bajos)", "Puerto de Santa Marta (Colombia)", 11.2408, -74.1990, "barco", 88),
+        Paquete(110, "Herramientas y Ferretería Pesada", 1.30, 1.20, 1.60, 2400.0,
+                "Puerto de Los Ángeles (EE.UU.)", "Puerto de Buenaventura (Colombia)", 3.8833, -77.0333, "barco", 72),
+    ]
 
 def ejecutar_optimizacion_mochila(paquetes):
     """

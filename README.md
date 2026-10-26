@@ -56,6 +56,4 @@ Opciones del menú:
   - `grafo_rutas.py`: Grafo con las coordenadas y conexiones marítimas entre puertos.
 - `exportador/`:
   - `exportar_excel.py`: Genera el archivo `.xlsx` con `openpyxl`.
-- `data/`:
-  - `paquetes_ejemplo.json`: Cargas marítimas de prueba entre puertos.
 - `reporte_logistica_barcos.xlsx`: Archivo Excel con los resultados.

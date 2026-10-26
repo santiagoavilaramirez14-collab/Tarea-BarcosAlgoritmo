@@ -1,5 +1,3 @@
-import json
-
 class Paquete:
     # Datos del paquete: dimensiones, volumen, peso, destino y coordenadas
     def __init__(self, id_paquete, descripcion, alto, ancho, profundidad, peso_kg, 
@@ -42,5 +40,5 @@ class Paquete:
 
     def __repr__(self):
         return (f"<Paquete {self.id_paquete}: {self.descripcion} | "
-                f"Vol: {self.volumen_m3}m³ | Peso: {self.peso_kg}kg | "
+                f"Vol: {self.volumen_m3} m3 | Peso: {self.peso_kg} kg | "
                 f"Dest: {self.destino_nombre} ({self.lat}, {self.lon})>")
