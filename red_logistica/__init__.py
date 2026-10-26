@@ -1,1 +1,1 @@
-from .grafo_rutas import RedMultimodalLogistica, COORDENADAS_NODOS
+from .grafo_rutas import RedMaritimaPuertos, COORDENADAS_PUERTOS

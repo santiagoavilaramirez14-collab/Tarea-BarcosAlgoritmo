@@ -114,7 +114,7 @@ def generar_reporte_excel(ruta_archivo, lista_paquetes, vehiculos_optimizados, r
     ws_mochila.views.sheetView[0].showGridLines = True
 
     headers_mochila = [
-        "ID Vehículo", "Nombre de Transporte", "Tipo Modal", "Capacidad Peso (kg)", "Peso Cargado (kg)",
+        "ID Barco", "Nombre del Barco", "Tipo", "Capacidad Peso (kg)", "Peso Cargado (kg)",
         "% Peso Usado", "Capacidad Vol (m³)", "Volumen Cargado (m³)", "% Vol Usado", "Cant. Paquetes", "IDs Paquetes Asignados"
     ]
 
@@ -153,8 +153,8 @@ def generar_reporte_excel(ruta_archivo, lista_paquetes, vehiculos_optimizados, r
     ws_dijkstra.views.sheetView[0].showGridLines = True
 
     headers_dijkstra = [
-        "ID Paquete", "Descripción", "Nodo Origen", "Destino en Ibagué",
-        "Ruta Óptima Calculada", "Escalas", "Distancia Total (km)", "Tiempo Estimado (horas)"
+        "ID Paquete", "Descripción", "Puerto Origen", "Puerto Destino",
+        "Ruta Marítima Óptima", "Escalas", "Distancia Náutica (km)", "Tiempo Estimado (horas)"
     ]
 
     for col_idx, h in enumerate(headers_dijkstra, start=1):

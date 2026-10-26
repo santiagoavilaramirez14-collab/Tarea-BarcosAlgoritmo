@@ -2,25 +2,25 @@
 
 Trabajo práctico de la materia **Diseño de Algoritmos** (6to Semestre).
 
-El proyecto simula un sistema de distribución de paquetes que combina transporte en **aviones** (país a país), **barcos** (puerto a puerto) y transporte **terrestre** en Ibagué (furgones, vans y motos).
+El proyecto simula la logística y distribución de carga marítima en **barcos de puerto a puerto**, utilizando los métodos vistos en clase:
 
 ---
 
 ## 📌 Métodos Utilizados
 
 1. **Problema de la Mochila (Knapsack 0/1):**
-   - Utilizado para optimizar el espacio y el peso en cada medio de transporte.
-   - Aplica programación dinámica con la tabla `dp[i][w]` para seleccionar la combinación óptima de paquetes según su peso y volumen.
+   - Utilizado para optimizar la carga del barco respetando las restricciones de peso (kg) y volumen (m³).
+   - Aplica programación dinámica con la matriz `dp[i][w]` para maximizar la prioridad y valor de las cargas transportadas.
 
 2. **Algoritmo de Dijkstra:**
-   - Utilizado para calcular la ruta más corta desde el origen (puerto o aeropuerto) hasta el destino en Ibagué (Centro, El Salado, Picaleña, Mirolindo, Ricaurte).
-   - Usa una cola de prioridad (`heapq`) para calcular la menor distancia en kilómetros y el tiempo aproximado de viaje.
+   - Calcula la ruta marítima más corta en distancia náutica (km) y tiempo estimado de navegación entre puertos internacionales y colombianos.
+   - Usa una cola de prioridad (`heapq`).
 
 3. **Árbol Binario de Búsqueda (BST):**
-   - Organiza los paquetes en la bodega local ordenados por su ID para búsquedas rápidas.
+   - Organiza los paquetes en la bodega portuaria ordenados por su ID para búsquedas rápidas en $\mathcal{O}(\log n)$.
 
 4. **Exportación a Excel:**
-   - Genera el archivo `reporte_logistica_barcos.xlsx` con el inventario de paquetes, asignación de carga y las rutas calculadas.
+   - Genera el archivo `reporte_logistica_barcos.xlsx` con los datos de las cargas, el llenado del barco y las rutas entre puertos calculadas.
 
 ---
 
@@ -34,8 +34,8 @@ python main.py
 
 Opciones del menú:
 1. Ver inventario de bodega (BST)
-2. Llenar vehículos (Mochila)
-3. Calcular rutas (Dijkstra)
+2. Llenar barco (Mochila)
+3. Calcular rutas entre puertos (Dijkstra)
 4. Generar Excel
 5. Ejecutar todo
 0. Salir
@@ -50,12 +50,12 @@ Opciones del menú:
   - `dijkstra.py`: Algoritmo de Dijkstra con cola de prioridad.
   - `arbol_bodega.py`: Árbol binario de búsqueda (BST) para la bodega.
 - `modelos/`:
-  - `paquete.py`: Clase Paquete con dimensiones (alto, ancho, profundidad), volumen, peso y destino (lat, lon).
-  - `transporte.py`: Clases para barco, avión, furgón, van y moto con sus capacidades.
+  - `paquete.py`: Clase Paquete con dimensiones (alto, ancho, profundidad), volumen, peso y destino portuario (lat, lon).
+  - `transporte.py`: Clase `BarcoCarga` con capacidad de peso y volumen.
 - `red_logistica/`:
-  - `grafo_rutas.py`: Grafo con las coordenadas y conexiones entre puertos, aeropuertos y barrios de Ibagué.
+  - `grafo_rutas.py`: Grafo con las coordenadas y conexiones marítimas entre puertos.
 - `exportador/`:
   - `exportar_excel.py`: Genera el archivo `.xlsx` con `openpyxl`.
 - `data/`:
-  - `paquetes_ejemplo.json`: Datos de prueba de los paquetes.
+  - `paquetes_ejemplo.json`: Cargas marítimas de prueba entre puertos.
 - `reporte_logistica_barcos.xlsx`: Archivo Excel con los resultados.
