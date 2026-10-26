@@ -3,7 +3,7 @@
 
 import os
 import sys
-import json
+import openpyxl
 from pathlib import Path
 
 # Configurar rutas del proyecto
@@ -16,32 +16,34 @@ from algoritmos.mochila import optimizar_mochila_dp, optimizar_mochila_greedy, a
 from algoritmos.dijkstra import dijkstra, reconstruir_ruta
 from algoritmos.arbol_bodega import ArbolBodega
 from red_logistica.grafo_rutas import RedMaritimaPuertos
-from exportador.exportar_excel import generar_reporte_excel
 
 
-def cargar_paquetes(ruta_json=None):
-    """Carga los paquetes y cargas de prueba desde el archivo JSON"""
-    if ruta_json is None:
-        ruta_json = BASE_DIR / "data" / "paquetes_ejemplo.json"
-        
-    with open(ruta_json, "r", encoding="utf-8") as f:
-        datos = json.load(f)
-        
+def cargar_paquetes_desde_excel(ruta_excel=None):
+    """Carga los paquetes y cargas de prueba desde el archivo Excel"""
+    if ruta_excel is None:
+        ruta_excel = BASE_DIR / "data" / "cargas_maritimas.xlsx"
+
+    wb = openpyxl.load_workbook(ruta_excel)
+    ws = wb.active
+
     paquetes = []
-    for item in datos:
+    # Itera desde la fila 2 para saltar los encabezados
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if row[0] is None:
+            continue
         p = Paquete(
-            id_paquete=item["id_paquete"],
-            descripcion=item["descripcion"],
-            alto=item["alto"],
-            ancho=item["ancho"],
-            profundidad=item["profundidad"],
-            peso_kg=item["peso_kg"],
-            origen=item["origen"],
-            destino_nombre=item["destino_nombre"],
-            lat=item["lat"],
-            lon=item["lon"],
+            id_paquete=int(row[0]),
+            descripcion=str(row[1]),
+            alto=float(row[2]),
+            ancho=float(row[3]),
+            profundidad=float(row[4]),
+            peso_kg=float(row[5]),
+            origen=str(row[6]),
+            destino_nombre=str(row[7]),
+            lat=float(row[8]),
+            lon=float(row[9]),
             modalidad_preferida="barco",
-            prioridad=item["prioridad"]
+            prioridad=int(row[10])
         )
         paquetes.append(p)
     return paquetes
@@ -92,14 +94,12 @@ def mostrar_menu():
     print("1. Ver inventario de bodega (BST)")
     print("2. Llenar barco (Mochila)")
     print("3. Calcular rutas entre puertos (Dijkstra)")
-    print("4. Generar Excel")
-    print("5. Ejecutar todo")
     print("0. Salir")
     print("=" * 45)
 
 
 def main():
-    paquetes = cargar_paquetes()
+    paquetes = cargar_paquetes_desde_excel()
     red = RedMaritimaPuertos()
 
     # Cargar bodega local con el arbol BST
@@ -107,15 +107,12 @@ def main():
     for p in paquetes:
         bodega.insertar(p)
 
-    vehiculos_optimizados = None
-    rutas_calculadas = None
-
     while True:
         mostrar_menu()
-        opcion = input("Selecciona una opcion (0-5): ").strip()
+        opcion = input("Selecciona una opcion (0-3): ").strip()
 
         if opcion == "1":
-            print("\n--- PAQUETES EN BODEGA (INORDEN BST) ---")
+            print("\n--- PAQUETES LEIDOS DESDE EXCEL (INORDEN BST) ---")
             print(f"{'ID':<6} | {'Descripcion':<35} | {'Vol (m3)':<10} | {'Peso (kg)':<10} | {'Destino':<35}")
             print("-" * 110)
             for p in bodega.inorden():
@@ -141,39 +138,6 @@ def main():
                 print(f"   Distancia nautica: {r['distancia_km']} km")
                 print(f"   Tiempo estimado de navegacion: {r['tiempo_h']} horas")
                 print(f"   Ruta: {camino}")
-
-        elif opcion == "4":
-            print("\n--- GENERANDO EXCEL ---")
-            if vehiculos_optimizados is None:
-                vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
-            if rutas_calculadas is None:
-                rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
-
-            kpis = {
-                "total_paquetes": len(paquetes),
-                "peso_total_kg": sum(p.peso_kg for p in paquetes),
-                "volumen_total_m3": sum(p.volumen_m3 for p in paquetes),
-                "aprovechamiento_promedio": vehiculos_optimizados[0].porcentaje_volumen_usado
-            }
-
-            excel_path = BASE_DIR / "reporte_logistica_barcos.xlsx"
-            generar_reporte_excel(str(excel_path), paquetes, vehiculos_optimizados, rutas_calculadas, kpis)
-            print(f"Reporte generado: {excel_path.name}")
-
-        elif opcion == "5":
-            print("\n--- EJECUTANDO FLUJO COMPLETO ---")
-            vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
-            rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
-
-            kpis = {
-                "total_paquetes": len(paquetes),
-                "peso_total_kg": sum(p.peso_kg for p in paquetes),
-                "volumen_total_m3": sum(p.volumen_m3 for p in paquetes),
-                "aprovechamiento_promedio": vehiculos_optimizados[0].porcentaje_volumen_usado
-            }
-            excel_path = BASE_DIR / "reporte_logistica_barcos.xlsx"
-            generar_reporte_excel(str(excel_path), paquetes, vehiculos_optimizados, rutas_calculadas, kpis)
-            print("Listo. Archivo Excel generado correctamente.")
 
         elif opcion == "0":
             print("Saliendo...")
