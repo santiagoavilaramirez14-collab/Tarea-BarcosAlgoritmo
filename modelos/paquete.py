@@ -1,14 +1,7 @@
 import json
 
 class Paquete:
-    """
-    Representa una carga o paquete logístico según los requerimientos:
-    - Dimensiones: Alto, Ancho, Profundidad (en metros)
-    - Volumen calculado automáticamente: Alto * Ancho * Profundidad (m^3)
-    - Peso (en kg)
-    - Coordenadas de destino: Latitud y Longitud
-    - Modalidad y Prioridad
-    """
+    # Datos del paquete: dimensiones, volumen, peso, destino y coordenadas
     def __init__(self, id_paquete, descripcion, alto, ancho, profundidad, peso_kg, 
                  origen, destino_nombre, lat, lon, modalidad_preferida="barco", prioridad=1):
         self.id_paquete = id_paquete

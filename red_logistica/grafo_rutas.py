@@ -1,12 +1,6 @@
-"""
-====================================================================
-RED DE TRANSPORTE MULTIMODAL (GRAFO PONDERADO)
-Modela:
-  1. Aviones: Carga País a País
-  2. Barcos: Carga Puerto a Puerto (Varios puertos internacionales y colombianos)
-  3. Terrestre: Furgones, Vans y Motos en Ibagué y enlaces nacionales
-====================================================================
-"""
+# Red de transporte con puertos, aeropuertos y rutas a Ibague
+# Aviones (pais a pais), Barcos (puerto a puerto) y Terrestre (Ibague)
+
 
 # Coordenadas geográficas exactas (Latitud, Longitud) de cada nodo
 COORDENADAS_NODOS = {

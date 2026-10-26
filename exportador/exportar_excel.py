@@ -1,26 +1,14 @@
-"""
-====================================================================
-EXPORTADOR A EXCEL (OPENPYXL)
-Genera el archivo Excel requerido con todos los datos logísticos:
-- Dimensiones de la carga (Alto, Ancho, Profundidad), Volumen y Peso
-- Coordenadas de destino (Latitud, Longitud)
-- Resultados del Algoritmo de la Mochila (Knapsack)
-- Rutas óptimas calculadas con Dijkstra (distancias y tiempos)
-====================================================================
-"""
+# Exportador a Excel para guardar datos de cargas, vehiculos y rutas calculadas
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
 def generar_reporte_excel(ruta_archivo, lista_paquetes, vehiculos_optimizados, rutas_calculadas, kpis):
-    """
-    Crea el libro Excel con formato corporativo y académico.
-    """
     wb = openpyxl.Workbook()
     # Eliminar hoja por defecto
     wb.remove(wb.active)
 
-    # Estilos visuales elegantes
+    # Estilos basicos para el reporte
     font_titulo = Font(name="Segoe UI", size=14, bold=True, color="FFFFFF")
     font_header = Font(name="Segoe UI", size=11, bold=True, color="FFFFFF")
     font_bold = Font(name="Segoe UI", size=10, bold=True)
@@ -42,17 +30,17 @@ def generar_reporte_excel(ruta_archivo, lista_paquetes, vehiculos_optimizados, r
     # =========================================================================
     # HOJA 1: RESUMEN Y KPIS
     # =========================================================================
-    ws_resumen = wb.create_sheet(title="Resumen Ejecutivo")
+    ws_resumen = wb.create_sheet(title="Resumen")
     ws_resumen.views.sheetView[0].showGridLines = True
 
-    ws_resumen["B2"] = "SISTEMA MULTIMODAL DE TRANSPORTE Y LOGÍSTICA"
+    ws_resumen["B2"] = "REPORTE DE ENTREGAS Y RUTAS"
     ws_resumen["B2"].font = font_titulo
     ws_resumen["B2"].fill = fill_azul_oscuro
     ws_resumen["B2"].alignment = Alignment(horizontal="center", vertical="center")
     ws_resumen.merge_cells("B2:G2")
-    ws_resumen.row_dimensions[2].height = 35
+    ws_resumen.row_dimensions[2].height = 32
 
-    ws_resumen["B3"] = "Optimización de Cargas (Mochila 0/1) y Enrutamiento Óptimo (Dijkstra) | Uniminuto 6to Semestre"
+    ws_resumen["B3"] = "Resumen de optimizacion de paquetes (Mochila) y rutas (Dijkstra)"
     ws_resumen["B3"].font = Font(name="Segoe UI", size=10, italic=True, color="595959")
     ws_resumen.merge_cells("B3:G3")
 

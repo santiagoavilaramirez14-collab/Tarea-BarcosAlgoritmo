@@ -1,9 +1,6 @@
-"""
-====================================================================
-ALGORITMO DE LA MOCHILA (KNAPSACK) - PROGRAMACIÓN DINÁMICA & GREEDY
-Visto en Sesiones 8, 9 y 10: Algoritmos Ávidos y Programación Dinámica
-====================================================================
-"""
+# Algoritmo de la Mochila (Knapsack 0/1) con Programacion Dinamica
+# y comparacion con metodo Greedy (Avido)
+
 
 def optimizar_mochila_dp(paquetes, capacidad_peso, capacidad_volumen=None, factor_escala_peso=1):
     """

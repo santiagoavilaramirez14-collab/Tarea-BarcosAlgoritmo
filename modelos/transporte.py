@@ -49,35 +49,35 @@ class VehiculoTransporte:
 
 
 class BarcoCarga(VehiculoTransporte):
-    """Barcos de transporte de carga: Puerto a Puerto (gran volumen y peso)"""
-    def __init__(self, id_vehiculo="BAR-01", nombre="Buque Portacontenedores Tolima", 
+    # Barco para rutas puerto a puerto (mucha capacidad)
+    def __init__(self, id_vehiculo="BAR-01", nombre="Barco Portacontenedores", 
                  capacidad_peso_kg=60000, capacidad_volumen_m3=450):
         super().__init__(id_vehiculo, nombre, "barco", capacidad_peso_kg, capacidad_volumen_m3, velocidad_promedio_kmh=40.0)
 
 
 class AvionCarga(VehiculoTransporte):
-    """Aviones de transporte: País a País (rápido, prioridad alta, capacidad moderada)"""
-    def __init__(self, id_vehiculo="AV-01", nombre="Boeing 777F Cargo Express", 
+    # Avion para rutas pais a pais (rapido y paquetes urgentes)
+    def __init__(self, id_vehiculo="AV-01", nombre="Avion de Carga", 
                  capacidad_peso_kg=18000, capacidad_volumen_m3=110):
         super().__init__(id_vehiculo, nombre, "avion", capacidad_peso_kg, capacidad_volumen_m3, velocidad_promedio_kmh=850.0)
 
 
 class FurgonTerrestre(VehiculoTransporte):
-    """Furgón para distribución terrestre en Ibagué: Cargas pesadas e industriales"""
-    def __init__(self, id_vehiculo="FUR-01", nombre="Furgón Distribución Ibagué (Chevrolet FTR)", 
+    # Furgon para reparto pesado en Ibague (Picalena)
+    def __init__(self, id_vehiculo="FUR-01", nombre="Furgon", 
                  capacidad_peso_kg=4000, capacidad_volumen_m3=22):
         super().__init__(id_vehiculo, nombre, "furgon", capacidad_peso_kg, capacidad_volumen_m3, velocidad_promedio_kmh=45.0)
 
 
 class VanTerrestre(VehiculoTransporte):
-    """Van para distribución terrestre en Ibagué: Cargas medianas y comerciales"""
-    def __init__(self, id_vehiculo="VAN-01", nombre="Van Urbana Ibagué (Renault Master)", 
+    # Van para reparto mediano en Ibague (Salado y Mirolindo)
+    def __init__(self, id_vehiculo="VAN-01", nombre="Van", 
                  capacidad_peso_kg=1200, capacidad_volumen_m3=9):
         super().__init__(id_vehiculo, nombre, "van", capacidad_peso_kg, capacidad_volumen_m3, velocidad_promedio_kmh=40.0)
 
 
 class MotoTerrestre(VehiculoTransporte):
-    """Moto para distribución terrestre en Ibagué: Mensajería rápida y paquetes pequeños"""
-    def __init__(self, id_vehiculo="MOT-01", nombre="Moto Reparto Ibagué (Yamaha Cargo)", 
+    # Moto para paquetes pequenos en Ibague (Centro y Ricaurte)
+    def __init__(self, id_vehiculo="MOT-01", nombre="Moto", 
                  capacidad_peso_kg=35, capacidad_volumen_m3=0.3):
         super().__init__(id_vehiculo, nombre, "moto", capacidad_peso_kg, capacidad_volumen_m3, velocidad_promedio_kmh=35.0)

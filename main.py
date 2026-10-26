@@ -1,15 +1,6 @@
-"""
-========================================================================================
-UNIVERSIDAD - FACULTAD DE INGENIERÍA
-DISEÑO DE ALGORITMOS - 6TO SEMESTRE
-PROYECTO / PARCIAL: SISTEMA LOGÍSTICO MULTIMODAL (BARCOS, AVIONES Y DISTRIBUCIÓN IBAGUÉ)
-Algoritmos implementados:
-  - Dijkstra (Ruta más corta con Cola de Prioridad Min-Heap)
-  - La Mochila / Knapsack 0/1 (Optimización de Carga con Programación Dinámica y Greedy)
-  - Árbol Binario de Búsqueda BST (Organización de Bodega Local)
-  - Simulación Interactiva de Puertos Marítimos y Enrutamiento Terrestre
-========================================================================================
-"""
+# Tarea Barcos - Diseno de Algoritmos
+# Optimizacion con Mochila y Rutas con Dijkstra
+
 import os
 import sys
 import json
@@ -139,26 +130,24 @@ const RUTAS_DIJKSTRA_DATA = {json.dumps(rutas_calculadas, indent=2, ensure_ascii
 
 
 def mostrar_menu():
-    print("\n" + "=" * 70)
-    print("🚢 SISTEMA LOGÍSTICO MULTIMODAL (DIJKSTRA + MOCHILA + PUERTOS)")
-    print("   Universidad - Diseño de Algoritmos (6to Semestre)")
-    print("=" * 70)
-    print("1. Ver Inventario de Cargas y Dimensiones (Organizado en Bodega BST)")
-    print("2. Optimizar Cargas de Transporte con Algoritmo de La Mochila (Knapsack)")
-    print("3. Calcular Rutas Óptimas de Entrega con Algoritmo de Dijkstra")
-    print("4. Generar y Exportar Reporte Completo a Excel (.xlsx)")
-    print("5. Abrir Simulador Web Interactivo de Puertos (Exoneración)")
-    print("6. Ejecutar Flujo Completo Automáticamente")
+    print("\n" + "=" * 45)
+    print("      SISTEMA DE RUTAS Y BARCOS")
+    print("=" * 45)
+    print("1. Ver inventario de bodega (BST)")
+    print("2. Llenar vehiculos (Mochila)")
+    print("3. Calcular rutas (Dijkstra)")
+    print("4. Generar Excel")
+    print("5. Ver mapa interactivo")
+    print("6. Ejecutar todo")
     print("0. Salir")
-    print("=" * 70)
+    print("=" * 45)
 
 
 def main():
-    print("Cargando componentes del sistema...")
     paquetes = cargar_paquetes()
     red = RedMultimodalLogistica()
 
-    # Cargar bodega local con BST
+    # Cargar bodega con el arbol BST
     bodega = ArbolBodega()
     for p in paquetes:
         bodega.insertar(p)
@@ -168,38 +157,38 @@ def main():
 
     while True:
         mostrar_menu()
-        opcion = input("Selecciona una opción (0-6): ").strip()
+        opcion = input("Selecciona una opcion (0-6): ").strip()
 
         if opcion == "1":
-            print("\n--- INVENTARIO DE CARGAS (RECORRIDO INORDEN BST) ---")
-            print(f"{'ID':<6} | {'Descripción':<35} | {'Vol (m³)':<10} | {'Peso (kg)':<10} | {'Destino':<30}")
+            print("\n--- PAQUETES EN BODEGA (INORDEN BST) ---")
+            print(f"{'ID':<6} | {'Descripcion':<35} | {'Vol (m³)':<10} | {'Peso (kg)':<10} | {'Destino':<30}")
             print("-" * 105)
             for p in bodega.inorden():
                 print(f"{p.id_paquete:<6} | {p.descripcion[:33]:<35} | {p.volumen_m3:<10} | {p.peso_kg:<10} | {p.destino_nombre[:28]:<30}")
 
         elif opcion == "2":
-            print("\n--- OPTIMIZACIÓN DE ESPACIO Y PESO: ALGORITMO DE LA MOCHILA ---")
+            print("\n--- ASIGNACION DE CARGA (MOCHILA) ---")
             vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
             for v in vehiculos_optimizados:
-                print(f"\n🚍 {v.nombre} [{v.tipo.upper()}]:")
-                print(f"   • Peso cargado: {v.peso_actual_kg} / {v.capacidad_peso_kg} kg ({v.porcentaje_peso_usado}%)")
-                print(f"   • Volumen cargado: {v.volumen_actual_m3} / {v.capacidad_volumen_m3} m³ ({v.porcentaje_volumen_usado}%)")
-                print(f"   • Paquetes asignados ({len(v.paquetes_asignados)}): {[p.id_paquete for p in v.paquetes_asignados]}")
+                print(f"\n{v.nombre} [{v.tipo.upper()}]:")
+                print(f"   Peso cargado: {v.peso_actual_kg} / {v.capacidad_peso_kg} kg ({v.porcentaje_peso_usado}%)")
+                print(f"   Volumen cargado: {v.volumen_actual_m3} / {v.capacidad_volumen_m3} m³ ({v.porcentaje_volumen_usado}%)")
+                print(f"   Paquetes ({len(v.paquetes_asignados)}): {[p.id_paquete for p in v.paquetes_asignados]}")
 
         elif opcion == "3":
-            print("\n--- RUTAS ÓPTIMAS DE TRANSPORTE: ALGORITMO DE DIJKSTRA ---")
+            print("\n--- RUTAS OPTIMAS (DIJKSTRA) ---")
             rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
             for r in rutas_calculadas:
                 camino = " -> ".join(r["ruta"]) if r["ruta"] else "Sin ruta"
-                print(f"\n📦 Paquete #{r['id_paquete']} ({r['descripcion']}):")
-                print(f"   • Origen: {r['origen']}")
-                print(f"   • Destino: {r['destino']}")
-                print(f"   • Distancia total: {r['distancia_km']} km")
-                print(f"   • Tiempo estimado: {r['tiempo_h']} horas")
-                print(f"   • Ruta óptima: {camino}")
+                print(f"\nPaquete #{r['id_paquete']} ({r['descripcion']}):")
+                print(f"   Origen: {r['origen']}")
+                print(f"   Destino: {r['destino']}")
+                print(f"   Distancia: {r['distancia_km']} km")
+                print(f"   Tiempo aprox: {r['tiempo_h']} horas")
+                print(f"   Ruta: {camino}")
 
         elif opcion == "4":
-            print("\n--- GENERANDO ARCHIVO DE EXCEL ---")
+            print("\n--- GENERANDO EXCEL ---")
             if vehiculos_optimizados is None:
                 vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
             if rutas_calculadas is None:
@@ -214,20 +203,20 @@ def main():
 
             excel_path = BASE_DIR / "reporte_logistica_barcos.xlsx"
             generar_reporte_excel(str(excel_path), paquetes, vehiculos_optimizados, rutas_calculadas, kpis)
-            print(f"✓ Archivo Excel listo en: {excel_path}")
+            print(f"Reporte generado: {excel_path.name}")
 
         elif opcion == "5":
-            print("\n--- ABRIENDO SIMULADOR VISUAL DE PUERTOS EN EL NAVEGADOR ---")
+            print("\n--- ABRIENDO MAPA INTERACTIVO ---")
             if rutas_calculadas is None:
                 rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
             sincronizar_datos_simulador(paquetes, rutas_calculadas)
 
             html_path = BASE_DIR / "visualizacion" / "simulador_mapa.html"
-            print(f"Abriendo: {html_path}")
             webbrowser.open(f"file:///{html_path.resolve()}")
+            print(f"Abierto en el navegador: {html_path.name}")
 
         elif opcion == "6":
-            print("\n--- EJECUTANDO FLUJO INTEGRAL DEL PROYECTO ---")
+            print("\n--- EJECUTANDO FLUJO COMPLETO ---")
             vehiculos_optimizados = ejecutar_optimizacion_mochila(paquetes)
             rutas_calculadas = calcular_rutas_dijkstra(paquetes, red)
             sincronizar_datos_simulador(paquetes, rutas_calculadas)
@@ -240,12 +229,10 @@ def main():
             }
             excel_path = BASE_DIR / "reporte_logistica_barcos.xlsx"
             generar_reporte_excel(str(excel_path), paquetes, vehiculos_optimizados, rutas_calculadas, kpis)
-            print("\n✓ ¡Flujo completo ejecutado con éxito!")
-            print(f"  • Reporte Excel: {excel_path}")
-            print(f"  • Simulador Web: {BASE_DIR / 'visualizacion' / 'simulador_mapa.html'}")
+            print("Listo. Archivo Excel y datos del mapa actualizados.")
 
         elif opcion == "0":
-            print("\n¡Éxitos en la sustentación del parcial!")
+            print("Saliendo...")
             break
         else:
             print("Opción inválida. Intenta nuevamente.")

@@ -1,9 +1,6 @@
-"""
-====================================================================
-ALGORITMO DE DIJKSTRA - CAMINO MÁS CORTO EN GRAFOS PONDERADOS
-Visto en Sesión 7 y 8: Grafos, Colas de Prioridad (Min-Heap) y Rutas Óptimas
-====================================================================
-"""
+# Algoritmo de Dijkstra con cola de prioridad (heapq)
+# para encontrar la ruta mas corta y tiempos de entrega
+
 import heapq
 
 def dijkstra(grafo, inicio):

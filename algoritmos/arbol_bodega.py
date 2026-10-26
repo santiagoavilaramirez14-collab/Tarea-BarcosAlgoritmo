@@ -1,9 +1,5 @@
-"""
-====================================================================
-ÁRBOL BINARIO DE BÚSQUEDA (BST) PARA BODEGA LOCAL
-Visto en Sesión 6: Estructuras jerárquicas y búsqueda O(log n)
-====================================================================
-"""
+# Arbol Binario de Busqueda (BST) para organizar los paquetes en bodega por ID
+
 
 class NodoBST:
     def __init__(self, paquete):
